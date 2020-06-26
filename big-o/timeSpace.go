@@ -3,16 +3,7 @@ package main
 import (
 	"fmt"
 )
-
-func reverseString(s string) string {
-	result := ""
-	n := len(s)
-	for i := n - 1; i >= 0; i-- {
-		result = result + string(s[i])
-	}
-	return result
-}
-
+//time related functions
 /**
 	* Which between the sum functions is more efficient?
 	*
@@ -45,13 +36,51 @@ func PrintAllPairs(n int) {
 	}
 }
 
+//space related functions
+func ReverseString(s string) string {
+	//space of O(n)
+	result := ""
+	n := len(s)
+	for i := n - 1; i >= 0; i-- {
+		result = result + string(s[i])
+	}
+	return result
+}
+func Sum() int{
+	//space O(1)
+	a := []int{1,2,3,4,5,6}
+	s := 0
+	for i := 0; i < len(a); i++ {
+		s += a[i]
+	}
+	return s
+}
+
+func ReverseStringC(s []byte) []byte {
+	//space of O(1)
+	n := len(s)
+	for i := n - 1; i >= n / 2; i-- {
+		in := s[n - i - 1]
+		s[n - i - 1] = s[i]
+		s[i] = in
+	}
+	return s
+}
+
 
 func main(){
 	PrintAllPairs(1)
+	fmt.Println(ReverseStringC([]byte("Fanan")))
 }
 /**
 	* For simplifying Big O
 	*
 	* 1. Constants do not matter. They should always be equivalent to 1
 	* 2. Smaller terms do not matter. If you have O(n^2) and O(n) (n^2 + n) the notation should be O(n^2)
+*/
+
+/**
+	* For Space
+	* Primitive (int, bool, nil) types take up constant space O(1)
+	* Strings, arrays, slice, maps, structs require O(n) space
 */
