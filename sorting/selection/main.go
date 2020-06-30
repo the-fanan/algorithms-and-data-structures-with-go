@@ -8,6 +8,7 @@ func main() {
 
 func SelectionSort(a []int) []int{
 	n := len(a)
+	//at each index, loop through array and look for value that is the least the swap with item at current index.
 	for i := 0; i < n; i++{
 		minIdx := i//initalize minimum value
 		for j := i + 1; j < n; j++ {
