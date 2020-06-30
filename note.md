@@ -48,6 +48,10 @@ MATH TIPS
 2. n * (n-2)/2 gives you number of palindromes in a repeated string
 3. For any number K, the sum of 2 values (A & B) is evenly divisible by K if the sum of the remainders of A/K + B/K is K
 That is if (A%K) + (B%K) == K
+3. P(A and B) = P(A) * P(B)
+3. If A and B are mutually exclusive (e.g., if one happens, the other one can’t), P(A or B) = P(A) + P(B)
+3. In general), P(A or B) = P(A) + P(B) - P(A and B)
+3. P(B given A) = P(A and B) / P(A)
 
 PITFALLS
 ===========
