@@ -8,8 +8,8 @@ func main(){
 
 func BubbleSort(a []int) []int{
 	n := len(a)
-	swapped := true
-	for swapped {
+	swap := true
+	for swap {
 		swaps := 0
 		for i := 0; i < n - 1; i++ {
 			if a[i] > a[i + 1]{
@@ -20,7 +20,7 @@ func BubbleSort(a []int) []int{
 			}
 		}
 		if swaps == 0 {
-			swapped = false
+			swap = false
 		}
 	}
 	return a
