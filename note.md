@@ -41,6 +41,9 @@ const MinUint = 0
 
 const MaxInt = int(^uint(0) >> 1)
 const MinInt = -MaxInt - 1
+
+var kthDigit int = int(math.Floor(float64(a[i]) / math.Pow(10, float64(k)))) % 10//get the kth digit from behind
+var numOfDigits int = int(math.Floor(math.Log10(float64(max)))) + 1//how many digits does this number have
 ```
 
 PROBLEM SOLVING PATTERNS
@@ -56,7 +59,7 @@ MATH TIPS
 2. `n * (n + 1) / 2` total number of possible substrings of a string. It also returns sum of numbers from 0 to n
 2. `n * (n-2)/2` gives you number of palindromes in a repeated string
 2. `[floor(Log10(x)) + 1]` gives number of digits a number has
-3. `[floor(x / pow(1,k) ) % 10]` gives the `kth` digit of number `x`
+3. `[floor(x / pow(10,k) ) % 10]` gives the `kth` digit of number `x`
 3. For any number K, the sum of 2 values (A & B) is evenly divisible by K if the sum of the remainders of `A/K + B/K `is `K`.
 That is if `(A%K) + (B%K) == K`
 3. `P(A and B) = P(A) * P(B)`
