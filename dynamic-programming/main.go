@@ -112,7 +112,8 @@ func longestCommonSubsequence(x,y string) [][]int {
 			if x[i] == y[j] {
 				l[i+1][j+1] = l[i][j] + 1
 			} else {
-				if l[i+1][j+1] = l[i][j+1]; l[i][j+1] < l[i+1][j] {
+				//take the max
+				if l[i+1][j+1] = l[i][j+1]; l[i+1][j] > l[i][j+1]  {
 					l[i+1][j+1] = l[i+1][j]
 				}
 			}
