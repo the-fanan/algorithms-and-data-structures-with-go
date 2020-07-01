@@ -34,6 +34,15 @@ strings.Split(s, character)
 strings.ToLowerCase(s)
 ```
 
+## Numbers
+```
+const MaxUint = ^uint(0)
+const MinUint = 0
+
+const MaxInt = int(^uint(0) >> 1)
+const MinInt = -MaxInt - 1
+```
+
 PROBLEM SOLVING PATTERNS
 ===========================
 1. Multiple Pointers - most cases, array must be sorted
