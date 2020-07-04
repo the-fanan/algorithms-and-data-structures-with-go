@@ -8,15 +8,15 @@ import
 
 func main(){
 	q := &Queue{} 
-	q.Push(5)
-	q.Push(10)
-	q.Push(15)
+	q.Enqueue(5)
+	q.Enqueue(10)
+	q.Enqueue(15)
 	q.Print()
-	q.Pop()//5
+	q.Dequeue()//5
 	q.Print()
-	q.Pop()//10
+	q.Dequeue()//10
 	q.Print()
-	q.Pop()//15
+	q.Dequeue()//15
 	q.Print()
 }
 
@@ -46,7 +46,7 @@ func (q *Queue) Print(){
 	fmt.Println("Length:", q.Length)
 }
 
-func (q *Queue) Pop() (int,error) {
+func (q *Queue) Dequeue() (int,error) {
 	if q.Length == 0 {
 		return 0, errors.New("Queue is empty")
 	}
@@ -57,7 +57,7 @@ func (q *Queue) Pop() (int,error) {
 	return node.Value, nil
 }
 
-func (q *Queue) Push(v int) {
+func (q *Queue) Enqueue(v int) {
 	n := &Node{Value: v}
 	if q.Length == 0 {
 		q.Head = n
