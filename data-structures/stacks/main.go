@@ -15,6 +15,7 @@ func main(){
 	val, err := s.Pop()
 	fmt.Println(val, err)
 	s.Print()
+	s.Pop()//15
 }
 
 type Node struct {
@@ -64,5 +65,6 @@ func (s *Stack) Pop() (int, error) {
 	node := s.Head
 	s.Head = s.Head.Next 
 	node.Next = nil 
+	s.Length--
 	return node.Value,nil
 }
