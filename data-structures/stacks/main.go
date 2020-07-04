@@ -60,7 +60,7 @@ func (s *Stack) Put(v int) error {
 
 func (s *Stack) Pop() (int, error) {
 	if s.Length == 0 {
-		return 0, errors.New("The stack is empty")
+		return 0, errors.New("Stack is empty")
 	}
 	node := s.Head
 	s.Head = s.Head.Next 
