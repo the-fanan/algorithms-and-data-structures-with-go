@@ -135,7 +135,7 @@ func (h *HashTable) Hash(key string) int{
 //String hash s0 a^n−1 + s1 a^n−2 + · · · + sn−3 a^2 + sn−2 a + sn−1
 // a is a Constant, s is the ASCII integer equivalent of the string
 /**
-	* PROBES
+	* PROBES -- for Linear probing. Methods of finding the nearest index to use
   * i is the iTH probe in the sequence, home is the position the key was originaly mapped to
  	* Liniear = (home + i) % N
 	* Modified Linear = (home + i ∗ c) % N
