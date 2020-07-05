@@ -57,7 +57,7 @@ MATH TIPS
 1. `(idx % N)` will wrap around an array preventing the need of an IF statement
 2. `x + (y - (x % y))` - next highest multiple of x from y
 2. `n * (n + 1) / 2` total number of possible substrings of a string. It also returns sum of numbers from 0 to n
-2. `n * (n-2)/2` gives you number of palindromes in a repeated string
+2. `n * (n-1)/2` gives you number of palindromes in a repeated string
 2. `[floor(Log10(x)) + 1]` gives number of digits a number has
 3. `[floor(x / pow(10,k) ) % 10]` gives the `kth` digit of number `x`
 3. For any number K, the sum of 2 values (A & B) is evenly divisible by K if the sum of the remainders of `A/K + B/K `is `K`.
