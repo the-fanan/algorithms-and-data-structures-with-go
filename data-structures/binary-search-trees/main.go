@@ -110,12 +110,14 @@ func main(){
 	b.Insert(13)
 	b.Insert(5)
 	b.Insert(16)
-//	b.Insert(12)
+	b.Insert(12)
 	b.Insert(6)
 	b.Insert(4)
-	//fmt.Println(*b.Root)
-	//fmt.Println(b.Find(6))
+	fmt.Println(b.Find(6))
+	fmt.Println(b.Find(26))
 	b.BFS()
+	b.DFSPreO()
+	b.DFSPostO()
 }
 
 /**
@@ -210,25 +212,53 @@ func (b *BST) BFS(){
 			node, err := q.Dequeue() 
 			if err == nil {
 				//the queue was not empty
-				if node != nil {
-					fmt.Print(node.Value, " ")
-					if node.Left != nil {
-						q.Enqueue(node.Left)
-					}
-					if node.Right != nil {
-						q.Enqueue(node.Right)
-					}
-				} else {
-					fmt.Print(node, " ")
+				fmt.Print(node.Value, " ")
+				if node.Left != nil {
+					q.Enqueue(node.Left)
 				}
-				if i == br {
-					fmt.Println("")
-					i = 1 
-					br = br * 2
-				} else {
-					i++
+				if node.Right != nil {
+					q.Enqueue(node.Right)
 				}
 			} 
+			if i == br {
+				fmt.Println("")
+				i = 1 
+				br = br * 2
+			} else {
+				i++
+			}
 		}
+	}
+	fmt.Println("")
+}
+
+//explore current node, then look at left, then right
+func (b *BST) DFSPreO(){
+	b.DFSPreOHelper(b.Root)
+	fmt.Println("")
+}
+
+func (b *BST) DFSPreOHelper(n *Node){
+	if n == nil {
+		return
+	} else {
+		fmt.Print(n.Value, " ")
+		b.DFSPreOHelper(n.Left)
+		b.DFSPreOHelper(n.Right)
+	}
+}
+//explore left of current node, explore right of current node then look at node
+func (b *BST) DFSPostO(){
+	b.DFSPostOHelper(b.Root)
+	fmt.Println("")
+}
+
+func (b *BST) DFSPostOHelper(n *Node){
+	if n == nil {
+		return
+	} else {
+		b.DFSPostOHelper(n.Left)
+		b.DFSPostOHelper(n.Right)
+		fmt.Print(n.Value, " ")
 	}
 }
