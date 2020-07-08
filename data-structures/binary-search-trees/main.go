@@ -2,8 +2,107 @@ package main
 
 import (
 	"fmt"
-	_"errors"
+	"errors"
 )
+
+type QNode struct {
+	Next *QNode 
+	Value *Node
+}
+
+/**
+	* For tree traversing
+	*/
+type Queue struct {
+	Head *QNode 
+	Tail *QNode
+	Length int
+}
+
+func (q *Queue) Print(){
+	node := q.Head 
+	for node != nil {
+		fmt.Print(node.Value, " ")
+		node = node.Next
+		if node == nil {
+			fmt.Println("")
+		}
+	}
+	fmt.Println("Length:", q.Length)
+}
+
+func (q *Queue) Dequeue() (*Node,error) {
+	if q.Length == 0 {
+		return nil, errors.New("Queue is empty")
+	}
+	node := q.Head 
+	q.Head = q.Head.Next 
+  node.Next = nil
+	q.Length--
+	return node.Value, nil
+}
+
+func (q *Queue) Enqueue(v *Node) {
+	n := &QNode{Value: v}
+	if q.Length == 0 {
+		q.Head = n
+	} else {
+		q.Tail.Next = n
+	}
+	q.Tail = n
+	q.Length++
+}
+
+type SNode struct {
+	Next *SNode 
+	Value *Node
+}
+
+/**
+	* Follows Last In First Out principle (LIFO)
+	*/
+type Stack struct {
+	Head *SNode 
+	Length int
+}
+
+func (s *Stack) Print(){
+	node := s.Head 
+	for node != nil {
+		fmt.Print(node.Value, " ")
+		node = node.Next
+		if node == nil {
+			fmt.Println("")
+		}
+	}
+	fmt.Println("Length:", s.Length)
+}
+
+func (s *Stack) Put(v *Node) error {
+	if s.Length > 10000 {
+		return errors.New("Stack Overflow")
+	}
+	n := &SNode{Value: v}
+	if s.Length == 0 {
+		s.Head = n 
+	} else {
+		n.Next = s.Head 
+		s.Head = n
+	}
+	s.Length++
+	return nil
+}
+
+func (s *Stack) Pop() (*Node, error) {
+	if s.Length == 0 {
+		return nil, errors.New("Stack is empty")
+	}
+	node := s.Head
+	s.Head = s.Head.Next 
+	node.Next = nil 
+	s.Length--
+	return node.Value,nil
+}
 
 func main(){
 	b := &BST{}
@@ -14,8 +113,9 @@ func main(){
 	b.Insert(12)
 	b.Insert(6)
 	b.Insert(4)
-	fmt.Println(*b.Root)
-	fmt.Println(b.Find(6))
+	//fmt.Println(*b.Root)
+	//fmt.Println(b.Find(6))
+	b.BFS()
 }
 
 /**
@@ -89,4 +189,40 @@ func (b *BST) Find(v int) bool{
 		}
 	}
 	return false
+}
+/**
+	* Traversing Trees (touching each node only once)
+	* 1. Breadth First search
+	* 2. Depth First Pre-Order
+	* 3. Depth First Post-Order 
+	* 4. Depth First In-Order
+*/
+//Go through siblings before you go to their children
+func (b *BST) BFS(){
+	if b.Root == nil {
+		return
+	} else {
+		q := &Queue{} 
+		q.Enqueue(b.Root)
+		i := 1
+		br := 1
+		for q.Length > 0 {
+			node, err := q.Dequeue() 
+			if err == nil {
+				//the queue was not empty
+				if node != nil {
+					fmt.Print(node.Value, " ")
+					q.Enqueue(node.Left)
+					q.Enqueue(node.Right)
+					if i == br {
+						fmt.Println("")
+						i = 1 
+						br = br * 2
+					} else {
+						i++
+					}
+				}
+			}
+		}
+	}
 }
