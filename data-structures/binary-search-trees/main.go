@@ -110,7 +110,7 @@ func main(){
 	b.Insert(13)
 	b.Insert(5)
 	b.Insert(16)
-	b.Insert(12)
+//	b.Insert(12)
 	b.Insert(6)
 	b.Insert(4)
 	//fmt.Println(*b.Root)
@@ -212,17 +212,23 @@ func (b *BST) BFS(){
 				//the queue was not empty
 				if node != nil {
 					fmt.Print(node.Value, " ")
-					q.Enqueue(node.Left)
-					q.Enqueue(node.Right)
-					if i == br {
-						fmt.Println("")
-						i = 1 
-						br = br * 2
-					} else {
-						i++
+					if node.Left != nil {
+						q.Enqueue(node.Left)
 					}
+					if node.Right != nil {
+						q.Enqueue(node.Right)
+					}
+				} else {
+					fmt.Print(node, " ")
 				}
-			}
+				if i == br {
+					fmt.Println("")
+					i = 1 
+					br = br * 2
+				} else {
+					i++
+				}
+			} 
 		}
 	}
 }
