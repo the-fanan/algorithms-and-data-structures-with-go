@@ -106,13 +106,20 @@ func (h *MaxHeap) Extract() (int,error) {
 	for currentIndex < h.Size {
 		rI := (2 * currentIndex) + 2
 		lI := (2 * currentIndex) + 1
-		if rI > len(h.Values) - 1 || lI > len(h.Values) - 1 {
-			break
-		}
 		compareIndex := rI 
-		if h.Values[lI] > h.Values[rI] {
-			compareIndex = lI
+		if rI > len(h.Values) - 1 && lI > len(h.Values) - 1 {
+			break
+		} else if rI > len(h.Values) - 1 {
+			compareIndex = lI 
+		} else if lI > len(h.Values) - 1 {
+			compareIndex = rI 
+		} else {
+			compareIndex = rI 
+			if h.Values[lI] > h.Values[rI] {
+				compareIndex = lI
+			}
 		}
+
 		if h.Values[currentIndex] < h.Values[compareIndex] {
 			tmp := h.Values[compareIndex]
 			h.Values[compareIndex] = h.Values[currentIndex]
