@@ -41,6 +41,32 @@ func main(){
 	fmt.Println(m.Values)
 	m.Extract()
 	fmt.Println(m.Values)
+	m.Extract()
+	fmt.Println(m.Values)
+	m.Extract()
+	fmt.Println(m.Values)
+	m.Extract()
+	fmt.Println(m.Values)
+	m.Extract()
+	fmt.Println(m.Values)
+	m.Extract()
+	fmt.Println(m.Values)
+	m.Extract()
+	fmt.Println(m.Values)
+	m.Extract()
+	fmt.Println(m.Values)
+	m.Extract()
+	fmt.Println(m.Values)
+	m.Extract()
+	fmt.Println(m.Values)
+	m.Extract()
+	fmt.Println(m.Values)
+	m.Extract()
+	fmt.Println(m.Values)
+	m.Extract()
+	fmt.Println(m.Values)
+	m.Extract()
+	fmt.Println(m.Values)
 }
 /**
 	* For a max Heap, parent must be greater than both children.
@@ -114,7 +140,6 @@ func (h *MaxHeap) Extract() (int,error) {
 		} else if lI > len(h.Values) - 1 {
 			compareIndex = rI 
 		} else {
-			compareIndex = rI 
 			if h.Values[lI] > h.Values[rI] {
 				compareIndex = lI
 			}
