@@ -118,6 +118,7 @@ func main(){
 	b.BFS()
 	b.DFSPreO()
 	b.DFSPostO()
+	b.DFSInO()
 }
 
 /**
@@ -232,7 +233,7 @@ func (b *BST) BFS(){
 	fmt.Println("")
 }
 
-//explore current node, then look at left, then right
+//explore current node, then look at left, then right -- to export or duplicate a tree so it's structure is the same when used to reconstruct a new tree
 func (b *BST) DFSPreO(){
 	b.DFSPreOHelper(b.Root)
 	fmt.Println("")
@@ -260,5 +261,21 @@ func (b *BST) DFSPostOHelper(n *Node){
 		b.DFSPostOHelper(n.Left)
 		b.DFSPostOHelper(n.Right)
 		fmt.Print(n.Value, " ")
+	}
+}
+
+//explore left of current node, explore current node then explore right of current node -- get tree in ascending order
+func (b *BST) DFSInO(){
+	b.DFSInOHelper(b.Root)
+	fmt.Println("")
+}
+
+func (b *BST)  DFSInOHelper(n *Node){
+	if n == nil {
+		return
+	} else {
+		b.DFSInOHelper(n.Left)
+		fmt.Print(n.Value, " ")
+		b.DFSInOHelper(n.Right)
 	}
 }
