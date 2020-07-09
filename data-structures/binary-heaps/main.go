@@ -128,7 +128,7 @@ func (h *MaxHeap) Extract() (int,error) {
 	h.Values[h.Size - 1] = 0
 	h.Size--
 	currentIndex := 0
-	//sift the last value down -- I use less down because if it is equal to size we are already at the last
+	//sift the last value down -- I use less than because if it is equal to size we are already at the last
 	for currentIndex < h.Size {
 		rI := (2 * currentIndex) + 2
 		lI := (2 * currentIndex) + 1
