@@ -133,18 +133,19 @@ func (h *MaxHeap) Extract() (int,error) {
 		rI := (2 * currentIndex) + 2
 		lI := (2 * currentIndex) + 1
 		compareIndex := rI 
-		if rI > len(h.Values) - 1 && lI > len(h.Values) - 1 {
+		//choose the child that is largest and exists
+		if rI > h.Size - 1 && lI > h.Size - 1 {
 			break
-		} else if rI > len(h.Values) - 1 {
+		} else if rI > h.Size - 1 {
 			compareIndex = lI 
-		} else if lI > len(h.Values) - 1 {
+		} else if lI > h.Size - 1 {
 			compareIndex = rI 
 		} else {
 			if h.Values[lI] > h.Values[rI] {
 				compareIndex = lI
 			}
 		}
-
+		//If it is smaller than child swap (we want a max heap)
 		if h.Values[currentIndex] < h.Values[compareIndex] {
 			tmp := h.Values[compareIndex]
 			h.Values[compareIndex] = h.Values[currentIndex]
