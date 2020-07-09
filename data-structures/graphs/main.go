@@ -17,19 +17,53 @@ func main(){
 	g.AddUndirectedEdge("plateau", "kano")
 	g.AddUndirectedEdge("lagos", "plateau")
 	g.Print()
-	fmt.Println("--------------Remove Undirected Edge-----------------")
+	fmt.Println("--------------Remove Undirected Edge--------------")
 	g.RemoveUndirectedEdge("lagos", "oyo")
 	g.Print()
-	fmt.Println("--------------Remove Vertex-----------------")
+	fmt.Println("--------------Remove Vertex--------------")
 	g.RemoveVertex("lagos")
 	g.Print()
-	fmt.Println("--------------Add Vertex and Edges for traversal-----------------")
+	fmt.Println("--------------Add Vertex and Edges for traversal--------------")
 	g.AddVertex("lagos")
 	g.AddUndirectedEdge("lagos", "abuja")
 	g.AddUndirectedEdge("lagos", "oyo")
 	g.AddUndirectedEdge("oyo", "plateau")
 	g.AddUndirectedEdge("kano", "abuja")
 	g.Print()
+	fmt.Println("--------------Depth First Traversal--------------")
+	g2 := &Graph{}
+	g2.AddVertex("A")
+	g2.AddVertex("B")
+	g2.AddVertex("C")
+	g2.AddVertex("D")
+	g2.AddVertex("E")
+	g2.AddVertex("F")
+	g2.AddUndirectedEdge("A", "C")
+	g2.AddUndirectedEdge("A", "B")
+	g2.AddUndirectedEdge("B", "D")
+	g2.AddUndirectedEdge("D", "E")
+	g2.AddUndirectedEdge("D", "F")
+	g2.AddUndirectedEdge("E", "F")
+	g2.AddUndirectedEdge("C", "E")
+	fmt.Println(g2.DFTraversal("A"))
+	fmt.Println("--------------Breadth First Traversal--------------")
+	g3 := &Graph{}
+	g3.AddVertex("A")
+	g3.AddVertex("B")
+	g3.AddVertex("C")
+	g3.AddVertex("D")
+	g3.AddVertex("E")
+	g3.AddVertex("F")
+	g3.AddUndirectedEdge("A", "E")
+	g3.AddUndirectedEdge("A", "B")
+	g3.AddUndirectedEdge("B", "D")
+	g3.AddUndirectedEdge("B", "C")
+	g3.AddUndirectedEdge("C", "D")
+	g3.AddUndirectedEdge("D", "F")
+	g3.AddUndirectedEdge("D", "E")
+	g3.AddUndirectedEdge("F", "E")
+	fmt.Println(g3.BFTraversal("A"))
+	fmt.Println("g2 BFT:", g2.BFTraversal("A"))
 }
 
 type ListNode struct {
@@ -221,5 +255,56 @@ func (g *Graph) RemoveVertex(vertex string) error {
 	* Traversing a graph
 	*
 	* Depth First
-	* Breadth First search
+	* Breadth First
 	*/
+
+func (g *Graph) DFTraversal(origin string) []string {
+	stack := make([]string,0)//push append(stack, value) // pop stack[:len(stack) - 1]
+	result := make([]string,0)
+	visited := make(map[string]bool)
+	stack = append(stack, origin)
+	for len(stack) > 0{
+		//pop vertex from stack
+		vertex := stack[len(stack) - 1]
+		stack = stack[:len(stack) - 1]
+		//if vertex has not been visited
+		if _,ok := visited[vertex]; !ok {
+			//add to visited vertexes
+			visited[vertex] = true 
+			//add to our results array to show route
+			result = append(result, vertex)
+			//loop through edges for vertex and add them to stack
+			for i := 0; i < g.AdacencyList[vertex].Length; i++{
+				vert,_ := g.AdacencyList[vertex].Get(i)
+				stack = append(stack, vert.Value)
+			}
+		}
+	}
+	return result
+}
+
+func (g *Graph) BFTraversal(origin string) []string {
+	queue := make([]string,0)//enqueue append(stack, value) // dequeue stack[1:]
+	result := make([]string,0)
+	visited := make(map[string]bool)
+	queue = append(queue, origin)
+	for len(queue) > 0{
+		//pop vertex from stack
+		vertex := queue[0]
+		queue = queue[1:]
+		//if vertex has not been visited
+		if _,ok := visited[vertex]; !ok {
+			//add to visited vertexes
+			visited[vertex] = true 
+			//add to our results array to show route
+			result = append(result, vertex)
+			//loop through edges for vertex and add them to queue
+			for i := 0; i < g.AdacencyList[vertex].Length; i++{
+				vert,_ := g.AdacencyList[vertex].Get(i)
+				queue = append(queue, vert.Value)
+			}
+		}
+	}
+
+	return result
+}
