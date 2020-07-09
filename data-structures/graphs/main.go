@@ -24,6 +24,7 @@ func main(){
 	g.RemoveVertex("lagos")
 	g.Print()
 }
+
 type ListNode struct {
 	Value string 
 	Next *ListNode
@@ -48,6 +49,20 @@ func (l *List) Print(){
 		}
 	}
 	fmt.Println("")
+}
+
+func (l *List) Get(p int) (*ListNode,error) {
+	if p < 0 || p > l.Length - 1 {
+		err := errors.New("Index is out of range")
+		return nil,err
+	}
+	i := 0
+	n := l.Head
+	for i < p {
+		n = n.Next
+		i++
+	}
+	return n,nil
 }
 
 func (l *List) Push(v string) {
@@ -195,3 +210,10 @@ func (g *Graph) RemoveVertex(vertex string) error {
 	delete(g.AdacencyList, vertex)
 	return nil
 }
+
+/**
+	* Traversing a graph
+	*
+	* Depth First
+	* Breadth First search
+	*/
