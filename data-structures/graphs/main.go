@@ -23,6 +23,13 @@ func main(){
 	fmt.Println("--------------Remove Vertex-----------------")
 	g.RemoveVertex("lagos")
 	g.Print()
+	fmt.Println("--------------Add Vertex and Edges for traversal-----------------")
+	g.AddVertex("lagos")
+	g.AddUndirectedEdge("lagos", "abuja")
+	g.AddUndirectedEdge("lagos", "oyo")
+	g.AddUndirectedEdge("oyo", "plateau")
+	g.AddUndirectedEdge("kano", "abuja")
+	g.Print()
 }
 
 type ListNode struct {
@@ -106,20 +113,19 @@ func (l *List) Remove(v string){
 		} else {
 			if prev == nil {
 				//we are at the head 
-				if l.Head == l.Tail {
-					l.Head = nil
-					l.Tail = nil
-				} else {
-					l.Head = current.Next
-				}
+				l.Shift()
 			} else {
-				prev.Next = current.Next
+				if current.Next == nil {
+					l.Tail = prev
+				} else {
+					prev.Next = current.Next
+				}
+				current.Next = nil
+				l.Length--
 			}
-			current.Next = nil
 			break
 		}
 	}
-	l.Length--
 }
 /**
 	* Vertex - node 
