@@ -67,6 +67,7 @@ That is if `(A%K) + (B%K) == K`
 3. If A and B are mutually exclusive (e.g., if one happens, the other one can’t), `P(A or B) = P(A) + P(B)`
 3. In general), `P(A or B) = P(A) + P(B) - P(A and B)`
 3. `P(B given A) = P(A and B) / P(A)`
+5. a ^ b = b ^ a; a^0 = a; a^a = 0; a^b^a = b where '^' = XOR (Can be used to find a single unique value in a list)
 
 PITFALLS
 ===========
