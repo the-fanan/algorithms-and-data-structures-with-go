@@ -2,11 +2,11 @@ non-premium
 
     easy
         https://leetcode.com/problems/add-binary/
+        https://leetcode.com/problems/plus-one/
         https://leetcode.com/problems/employee-importance/
         https://leetcode.com/problems/find-the-difference/
         https://leetcode.com/problems/intersection-of-two-arrays/
         https://leetcode.com/problems/move-zeroes/
-        https://leetcode.com/problems/plus-one/
         https://leetcode.com/problems/range-sum-of-bst/
         https://leetcode.com/problems/verifying-an-alien-dictionary/
     medium
