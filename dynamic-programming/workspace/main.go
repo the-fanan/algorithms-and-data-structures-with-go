@@ -79,3 +79,4 @@ func MaximumProductSubarray(nums []int) int{
 		
 	return max
 }
+//The longest increasing subsequence of any sequence is the subsequence of the sorted sequence of itself
