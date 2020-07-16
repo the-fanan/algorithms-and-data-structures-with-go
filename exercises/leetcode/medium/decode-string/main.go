@@ -2,91 +2,111 @@ package main
 
 import (
 	"fmt"
-	"strconv"
 )
 
 func main(){
-	fmt.Println(repeatString("f", 5))
+	fmt.Println(decodeString("10[ff2[a]]2[e]fs"))
 }
-const MULT = "MULT"
-const ADD = "ADD"
 const NUM = "NUM"
-const ALPHA = "ALPHA"
+const ALPHA = "APLHA"
 
 func decodeString(s string) string {
 	decoded := ""
-	multStack := make([]int,0)
-	stringStack := make([]string,0)
-	oppStack := make([]string,0)//ADD,MULT
-	running := ""
-	runningType := ""//NUM,ALPH
+	stringList := make([]string,0)
+	mult := 0
+	bracketStack := make([]string,0)
+	needsDecoding := false 
+	decodingString := ""
+	runningString := ""
+	runningType := ""
+
 	for i := 0; i < len(s); i++ {
-		if string(s[i]) == "[" {
-			//multiply
-			n,_:= strconv.Atoi(running)
-			multStack = append(multStack,n)
-			oppStack = append(oppStack, MULT)
-			running = ""
-			runningType = ""
-		} else if string(s[i]) == "]" {
-			//add
-			if running != "" {
-				//guard against repeated closing tags
-				stringStack = append(stringStack, running)
-				oppStack = append(oppStack, ADD)
-				running = ""
-				runningType = ""
+		if mult == 0 {
+
+			if runningString == "" {
+				runningString = string(s[i])
+				if isAlpha(s[i]) {
+					runningType = ALPHA
+				} else {
+					runningType = NUM
+				}
+			} else {
+				if isAlpha(s[i]) && runningType == NUM {
+					//a switch from number to string
+					mult = convStI(runningString)
+					runningString = string(s[i])
+					runningType = ALPHA
+				} else if isAlpha(s[i]) && runningType == ALPHA {
+					//continuation from string to string
+					runningString += string(s[i])
+				} else if isNum(s[i]) && runningType == ALPHA {
+					//switch from string to number
+					stringList = append(stringList,runningString)
+					runningString = string(s[i])
+					runningType = NUM
+				} else if isNum(s[i]) && runningType == NUM {
+					//continuation from number to number
+					runningString += string(s[i])
+				} else if string(s[i]) == "[" {
+					bracketStack = append(bracketStack,"[")
+					decodingString += string(s[i])
+					mult = convStI(runningString)
+					runningString = ""
+					runningType = ""
+				}
 			}
 		} else {
-			if running == "" {
-				running = string(s[i])
-				if isNum(s[i]) {
-					runningType = NUM
-				} else {
-					runningType = ALPHA
-				}
-			} else {
-				if (runningType == NUM && isNum(s[i])) ||  (runningType == ALPHA && isAlpha(s[i])){
-					running += string(s[i])
-				} else {
-					//at this point only number or letter and mismatch will appear
-					if isNum(s[i]) {
-						//we have encountered a transition from letters to numbers
-						stringStack = append(stringStack, running)
-						oppStack = append(oppStack, ADD)
-						running = string(s[i])
-						runningType = NUM
+			if string(s[i]) == "[" {
+				bracketStack = append(bracketStack,"[")
+				decodingString += string(s[i])
+			} else if string(s[i]) == "]" {
+				lastBracket := bracketStack[len(bracketStack) - 1]
+				bracketStack = bracketStack[:len(bracketStack) - 1]
+				if len(bracketStack) == 0 && lastBracket == "[" {
+					//we have completed the decoded string
+					dsb := []byte(decodingString)
+					dsb = dsb[1:]
+					decodingString = string(dsb)
+					if needsDecoding {
+						stringList = append(stringList, repeatString(decodeString(decodingString), mult))
 					} else {
-						//we have encountered a transition from numbers to letters
-						n,_:= strconv.Atoi(running)
-						multStack = append(multStack,n)
-						//oppStack = append(oppStack, MULT)
-						running = string(s[i])
-						runningType = ALPHA
+						stringList = append(stringList, repeatString(decodingString, mult))
 					}
+					decodingString = ""
+					mult = 0
+					needsDecoding = false
+				} else {
+					needsDecoding = true 
+					decodingString += string(s[i])
 				}
-			}
-		}
-		oppStack = oppStack[:len(oppStack) - 1]//take out the last add opp 
-		for len(multStack) > 0 {
-			opp := oppStack[len(oppStack) - 1]
-			oppStack = oppStack[:len(oppStack) - 1]
-			if opp == ADD {
-				str1 := stringStack[len(stringStack) - 1]
-				stringStack = stringStack[:len(stringStack) - 1]
-				str2 := stringStack[len(stringStack) - 1]
-				stringStack = stringStack[:len(stringStack) - 1]
-				str2 += str1 
-				stringStack = append(stringStack,str2)
 			} else {
-				//opp will me mult
-
+				decodingString += string(s[i])
 			}
 		}
 	}
+
+	if runningString != "" {
+		stringList = append(stringList, runningString)
+	}
+
+	for _,v := range stringList {
+		decoded += v
+	}
+
 	return decoded
 }
 
+func convStI(s string) int {
+	num := 0;
+	for i := 0; i < len(s); i++ {
+		n := int(s[i]) - 48 
+		num += n 
+		if i != len(s) - 1 {
+			num *= 10
+		}
+	}
+	return num
+}
 func isNum(s byte) bool {
 	if int(s) >= 48 && int(s) <= 57{
 		return true
