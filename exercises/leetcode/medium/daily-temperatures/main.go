@@ -3,7 +3,8 @@ package main
 import "fmt"
 
 func main() {
-	fmt.Println("daily temperatures")
+	fmt.Println(dailyTemperatures([]int{73, 74, 75, 71, 69, 72, 76, 73}))
+	fmt.Println(dailyTemperatures([]int{89,62,70,58,47,47,46,76,100,70}))
 }
 
 /*
@@ -13,3 +14,39 @@ func main() {
 
 	* Note: The length of temperatures will be in the range [1, 30000]. Each temperature will be an integer in the range [30, 100]. 
 */	
+
+func dailyTemperatures(T []int) []int {
+	temps := make([][]int,101)
+	for i,v := range temps {
+		if v == nil {
+			temps[i] = make([]int,0)
+		} 
+	}
+
+	for i := len(T) - 1; i >= 0; i-- {
+		temps[T[i]] = append(temps[T[i]],i)
+	}
+
+	for i,v := range T {
+		fI := -1 
+		for j := v + 1; j < len(temps); j++ {
+			for _,idx := range temps[j] {
+				if idx > i {
+					if fI == -1 {
+						fI = idx
+					}	else if fI > idx {
+						fI = idx
+					}
+				}
+			}
+		}
+
+		if fI == -1 {
+			T[i] = 0
+		} else {
+			T[i] = fI - i
+		}
+	}
+
+	return T
+}
