@@ -86,13 +86,6 @@ func decodeHelper(s string, m *map[string]int) int {
 	s2s,s2 := sliceString(s,2)
 	w1 := 0
 	w2 := 0
-
-	if v, ok := (*m)[s1]; ok {
-		w1 = v
-	} else {
-		w1 = decodeHelper(s1,m)
-	}
-
 	if convStI(s2s) > 26 {
 		w2 = 0
 	} else {
@@ -100,9 +93,18 @@ func decodeHelper(s string, m *map[string]int) int {
 			w2 = v
 		} else {
 			w2 = decodeHelper(s2,m)
+			(*m)[s2] = w2
 		}
 	}
+	
+	if v, ok := (*m)[s1]; ok {
+		w1 = v
+	} else {
+		w1 = decodeHelper(s1,m)
+		(*m)[s1] = w1
+	}
 	ways = w1 + w2
+	(*m)[s] = ways
 	return ways
 }
 
