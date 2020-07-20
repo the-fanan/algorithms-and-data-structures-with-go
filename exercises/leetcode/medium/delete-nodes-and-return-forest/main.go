@@ -106,3 +106,9 @@ func find(r *TreeNode, v int) (*TreeNode, string) {
 	}
 	return nil, ""
 }
+
+/*
+ * A more efficient approach [https://leetcode.com/problems/delete-nodes-and-return-forest/discuss/357357/Python-O(n)-DFS-Recursion-with-Explanation]
+	
+ 	* Make the to_delete a hashset for O(1) look-up, check if the root needs to be included in the result or not, and proceed with DFS. For DFS we need to check if the specified node needs to be deleted, if yes, we need to update the parent node pointers and add in it's children to the result if they are not in the delete list. Then continue DFS keeping track of parent and where you came from (R or L).
+*/
