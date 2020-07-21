@@ -7,7 +7,7 @@ func main() {
 	r.Left = &TreeNode{Val:2}
 	r.Right = &TreeNode{Val:3}
 	r.Right.Right = &TreeNode{Val:4}
-	forests := delNodes(r,[]int{2,1})
+	forests := delNodesOptimised(r,[]int{2,1})
 	for _, root := range forests {
 		fmt.Println(root.Val)
 	}
@@ -112,3 +112,58 @@ func find(r *TreeNode, v int) (*TreeNode, string) {
 	
  	* Make the to_delete a hashset for O(1) look-up, check if the root needs to be included in the result or not, and proceed with DFS. For DFS we need to check if the specified node needs to be deleted, if yes, we need to update the parent node pointers and add in it's children to the result if they are not in the delete list. Then continue DFS keeping track of parent and where you came from (R or L).
 */
+func delNodesOptimised(root *TreeNode, to_delete []int) []*TreeNode {
+	forests := make([]*TreeNode,0)
+	toDelete := make(map[int]bool)
+	for _,v := range to_delete {
+		toDelete[v] = true
+	}
+	forests = append(forests, delNodesOptimisedHelper(root,&toDelete)...)
+	if _,ok := toDelete[root.Val]; !ok {
+		forests = append(forests,root)
+	}
+	return forests
+}
+
+func delNodesOptimisedHelper(root *TreeNode, toDelete *map[int]bool) []*TreeNode {
+	forests := make([]*TreeNode,0)
+	//deal with children first
+	if root.Left != nil {
+		forests = append(forests, delNodesOptimisedHelper(root.Left,toDelete)...)
+	} 
+
+	if root.Right != nil {
+		forests = append(forests, delNodesOptimisedHelper(root.Right,toDelete)...)
+	} 
+
+	if _,ok := (*toDelete)[root.Val]; ok {
+		//this value is to be deleted
+		if root.Left != nil {
+			if _,ok := (*toDelete)[root.Left.Val]; !ok {
+				forests = append(forests,root.Left)
+			} else {
+				root.Left = nil
+			}
+		} 
+
+		if root.Right != nil {
+			if _,ok := (*toDelete)[root.Right.Val]; !ok {
+				forests = append(forests,root.Right)
+			} else {
+				root.Right = nil
+			}
+		}
+	} else {
+		if root.Left != nil {
+			if _,ok := (*toDelete)[root.Left.Val]; ok {
+				root.Left = nil
+			}
+		} 
+		if root.Right != nil {
+			if _,ok := (*toDelete)[root.Right.Val]; ok {
+				root.Right = nil
+			}
+		} 
+	}
+	return forests
+}
