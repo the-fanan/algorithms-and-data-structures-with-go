@@ -3,8 +3,8 @@ package main
 import "fmt"
 
 func main(){
-	nums := []int{2,4,6}
-	fmt.Println(isPossibleDivide(nums,3))
+	nums := []int{3,2,1,2,3,4,3,4,5,9,10,11}
+	fmt.Println(isPossibleDivideOptimized(nums,3))
 }
 
 /*
@@ -30,6 +30,74 @@ func main(){
 	* Output: false
 	* Explanation: Each array should be divided in subarrays of size 3.
 */
+func isPossibleDivideOptimized(nums []int, k int) bool {
+	min := int(^uint(0) >> 1)
+	max := 0
+	numbers := make(map[int]int)
+	//convert to a map and find smallest number
+	for _,v := range nums {
+		if v < min {
+			min = v
+		}
+		if v > max {
+			max = v
+		}
+		if _,ok := numbers[v]; !ok {
+			numbers[v] = 1
+		} else {
+			numbers[v]++
+		}
+	}
+
+	keepSearching := true 
+	subL := 0
+	running := min
+	for keepSearching {
+		if min > max {
+			break
+		}
+		if subL == 0 {
+			if v, ok := numbers[min]; ok {
+				if v > 0 {
+					subL++
+					numbers[min]--
+					running =  min + 1
+					if numbers[min] == 0 {
+						min++
+					}
+				} else {
+					min++
+				}
+			} else {
+				min++
+			}
+		} else {
+			if v, ok := numbers[running]; ok {
+				if v > 0 {
+					subL++
+					numbers[running]--
+					if running == min && numbers[running] == 0{
+						min++
+					}
+					running++
+
+					if subL == k {
+						subL = 0
+					}
+				} else {
+					break
+				}
+			} else {
+				//the number does not exist
+				break
+			}
+		}
+	}
+	if subL > 0 {
+		return false
+	}
+	return true
+}
 
 func isPossibleDivide(nums []int, k int) bool {
 	//sort nums
