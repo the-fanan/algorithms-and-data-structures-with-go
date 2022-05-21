@@ -26,12 +26,32 @@ key, value := range m //to be used in a loop
 ## String
 ```go
 s := "Fanan"
-b := []byte(s) //convert s to byte
+b := []byte(s) //convert s to byte or []rune(s)
 s[i] // accesses the character at index i of s. It is returned as byte.
+ch := rune(97)
+n := int('a')
 
 //import the strings library
 strings.Split(s, character)
-strings.ToLowerCase(s)
+strings.ToLower(s)
+```
+
+## Data Structures
+Go doesn't have a lot of in-built data structures so you have to improvise with a few
+1. For Stacks, you can use slices
+2. for Queues you can use channels
+```go
+queue := make(chan int, size)
+queue <- 10 // put 10 in queue
+first := <- queue // get first character in queue
+// to avoid blocking calls you can use select
+select {
+    case first := <- this.queue:
+        // do something with first
+    default:
+        // avoid blocking calls
+        fmt.Println("no activity")
+}
 ```
 
 ## Numbers
