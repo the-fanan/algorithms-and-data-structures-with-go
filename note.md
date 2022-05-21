@@ -39,7 +39,7 @@ strings.ToLower(s)
 ## Data Structures
 Go doesn't have a lot of in-built data structures so you have to improvise with a few
 1. For Stacks, you can use slices
-2. for Queues you can use channels
+2. for Queues you can use bufferred channels
 ```go
 queue := make(chan int, size)
 queue <- 10 // put 10 in queue
