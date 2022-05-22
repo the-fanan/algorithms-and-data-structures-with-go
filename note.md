@@ -34,6 +34,30 @@ n := int('a')
 //import the strings library
 strings.Split(s, character)
 strings.ToLower(s)
+
+// custom sorting example
+type sortablePoints [][]int
+func (s sortablePoints) Len() int {
+    return len(s)
+}
+
+func (s sortablePoints) Swap(i, j int) {
+    s[i], s[j] = s[j], s[i]
+}
+
+func (s sortablePoints) Less(i, j int) bool {
+    ix := s[i][0]
+    iy := s[i][1]
+    jx := s[j][0]
+    jy := s[j][1]
+    return distance(ix, iy)  < distance(jx, jy) 
+}
+
+func originClosest(points [][]int, k int) [][]int {
+    sort.Sort(sortablePoints(points))
+    return points[:k]
+}
+
 ```
 
 ## Data Structures
@@ -55,7 +79,7 @@ select {
 ```
 
 ## Numbers
-```
+```go
 const MaxUint = ^uint(0)
 const MinUint = 0
 
